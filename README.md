@@ -50,10 +50,10 @@ _________________________
 
 ```env
 HUGGINGFACE_HUB_TOKEN=your_huggingface_token_here
+DATABASE_URL=mysql+pymysql://username:password@localhost:3306/your_database_name
 MODEL_PATH=absolute/path/to/your/model.gguf
 APP_HOST=localhost
 APP_PORT=8001
-
 ```
 
 2. Set up a virtual environment:
