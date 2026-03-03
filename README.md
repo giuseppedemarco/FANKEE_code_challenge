@@ -66,15 +66,19 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 Install dependencies: pip install -r requirements.txt
 ```
+4. Install the model from the AI-Mission-Generator:
+```
+python3 models/install_models.py
+```
 
-4. In the .env file, set the MODEL_PATH variable to the path where the model was installed (Use the absolute path, e.g. /Users/.../challenges/AI-Mission-Generator/models/model_name.gguf)
+6. In the .env file, set the MODEL_PATH variable to the path where the model was installed (Use the absolute path, e.g. /Users/.../challenges/AI-Mission-Generator/models/model_name.gguf)
 
-5. Start the FastAPI server:
+7. Start the FastAPI server:
 ```
 cd backend
 python3 main.py
 ```
-6. Visit swagger at http://localhost:8001/docs#/
+7. Visit swagger at http://localhost:8001/docs#/
 
 ```
 
