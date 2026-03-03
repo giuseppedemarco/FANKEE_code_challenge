@@ -60,7 +60,7 @@ export default function Username() {
         <p className="text-center text-4xl font-semibold text-[#FFE600]">What&apos;s your name?</p>
         <form onSubmit={onSubmit} className="flex w-full max-w-md items-center gap-3">
           <Input
-            className="h-14 w-full border-2 border-[#FFE600] px-4 text-xl focus-visible:ring-[#FFE600]"
+            className="h-14 w-full border-2 border-[#FFE600] px-4 text-xl text-white placeholder:text-white/60 focus-visible:ring-[#FFE600]"
             placeholder="Username"
             value={nickname}
             onChange={(e) => setNickname(e.target.value)}
