@@ -1,7 +1,0 @@
-fastapi
-uvicorn
-sqlalchemy
-dotenv
-torch
-llama-cpp-python
-huggingface_hub
