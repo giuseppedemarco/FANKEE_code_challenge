@@ -1,7 +1,7 @@
 export type TrackRead = {
   id: number;
   artist_name: number;
-  genre: string;
+  genre: string | null;
   track_title: string | null;
   track_description: string | null;
   created_at: string | null;

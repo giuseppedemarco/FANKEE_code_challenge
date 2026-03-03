@@ -6,7 +6,7 @@ from pydantic import BaseModel, ConfigDict
 class TrackRead(BaseModel):
     id: int
     artist_name: int
-    genre: str
+    genre: str | None = None
     track_title: str | None = None
     track_description: str | None = None
     created_at: str | None = None
