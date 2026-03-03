@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.db.session import get_db
@@ -19,7 +19,10 @@ def get_track_service(repo: TrackRepository = Depends(get_track_repository)) -> 
 
 @router.get("/{track_id}", response_model=TrackRead)
 def get_track(track_id: int, service: TrackService = Depends(get_track_service)):
-    return service.get_track(track_id)
+    try:
+        return service.get_track(track_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
 
 
 @router.get("/", response_model=list[TrackRead])
@@ -32,4 +35,7 @@ def verify_existing_track(
     artist_name: int,
     service: TrackService = Depends(get_track_service),
 ):
-    return service.verify_existing_track(artist_name)
+    try:
+        return service.verify_existing_track(artist_name)
+    except ValueError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
