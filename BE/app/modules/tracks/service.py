@@ -1,14 +1,20 @@
 from fastapi import HTTPException
-import httpx
+
+from app.modules.missions.mission_generator_service import MissionGeneratorService
 from app.modules.tracks.repository import TrackRepository
 from app.modules.users.service import UserService
 from app.modules.tracks.schemas import TrackGenerateMissionPayload
-from app.core.config import settings
 
 class TrackService:
-    def __init__(self, repository: TrackRepository, user_service: UserService):
+    def __init__(
+        self,
+        repository: TrackRepository,
+        user_service: UserService,
+        mission_generator_service: MissionGeneratorService,
+    ):
         self.repository = repository
         self.user_service = user_service
+        self.mission_generator_service = mission_generator_service
 
     def get_track(self, track_id: int):
         return self.repository.get_by_id(track_id)
@@ -24,21 +30,27 @@ class TrackService:
         if not user:
             raise HTTPException(status_code=404, detail="User not found")
         
-        external_payload = {
+        try:
+            missions = self.mission_generator_service.generate_missions(
+                artist_name=user.nickname,
+                track_title=payload.track_title,
+                track_description=payload.track_description,
+            )
+        except ValueError as exc:
+            raise HTTPException(status_code=422, detail=f"Invalid data format: {exc}") from exc
+        except Exception as exc:
+            raise HTTPException(
+                status_code=500,
+                detail="An unexpected error occurred. Please try again later.",
+            ) from exc
+
+        if not missions:
+            raise HTTPException(status_code=500, detail="Failed to generate missions data")
+
+        return {
             "artist_name": user.nickname,
             "track_title": payload.track_title,
-            "track_description": payload.track_description
+            "missions": missions,
         }
-        
-        url = f"{settings.AI_MISSION_GENERATOR_URL}/api/generate-missions"
-        async with httpx.AsyncClient() as client:
-            try:
-                response = await client.post(url, json=external_payload)
-                response.raise_for_status()
-                return response.json()
-            except httpx.HTTPStatusError as e:
-                raise HTTPException(status_code=e.response.status_code, detail=f"External API error: {e.response.text}")
-            except httpx.RequestError as e:
-                raise HTTPException(status_code=500, detail=f"Failed to reach external API: {str(e)}")
 
     
