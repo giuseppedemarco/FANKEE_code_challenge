@@ -1,14 +1,26 @@
 "use client";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
+import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { UserVerifyResponse } from "@/lib/models/users";
 import styles from "./page.module.css";
 
 export default function Username() {
+  const router = useRouter();
   const [nickname, setNickname] = useState("");
   const [message, setMessage] = useState("");
   const [isUserCreated, setIsUserCreated] = useState(false);
+
+  useEffect(() => {
+    if (!isUserCreated) return;
+
+    const timeoutId = window.setTimeout(() => {
+      router.push("/tracklist");
+    }, 3000);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [isUserCreated, router]);
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
