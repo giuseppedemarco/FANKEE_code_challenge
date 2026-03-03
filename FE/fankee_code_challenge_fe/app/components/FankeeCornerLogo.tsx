@@ -15,8 +15,8 @@ export default function FankeeCornerLogo() {
       <Image
         src="/FANKEE_logo.svg"
         alt="FANKEE"
-        width={180}
-        height={60}
+        width={100}
+        height={0}
         priority
       />
     </div>
