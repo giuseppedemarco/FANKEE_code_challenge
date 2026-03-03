@@ -45,15 +45,14 @@ _________________________
 
 - Go to the **Hugging Face** website and create a token  
   *(Fine-grained, no specific permissions required)*
-
-- In the `.env` file, set the following variables:
+- Create an `.env` file and set the following variables:
 
 ```env
 HUGGINGFACE_HUB_TOKEN=your_huggingface_token_here
+DATABASE_URL=mysql+pymysql://username:password@localhost:3306/your_database_name
 MODEL_PATH=absolute/path/to/your/model.gguf
 APP_HOST=localhost
 APP_PORT=8001
-
 ```
 
 2. Set up a virtual environment:
