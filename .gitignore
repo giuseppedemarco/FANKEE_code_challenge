@@ -5,3 +5,9 @@ BE/.env
 models/*.gguf
 **/__pycache__/
 *.pyc
+
+# Virtual environments
+venv/
+.venv/
+**/venv/
+**/.venv/

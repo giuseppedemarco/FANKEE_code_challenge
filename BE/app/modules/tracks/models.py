@@ -12,6 +12,7 @@ class Track(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
     artist_name: Mapped[int] = mapped_column(Integer, nullable=False)
+    genre: Mapped[str] = mapped_column(String(255), nullable=False)
     track_title: Mapped[str] = mapped_column(String(255), nullable=True)
     track_description: Mapped[str] = mapped_column(Text, nullable=True)
     

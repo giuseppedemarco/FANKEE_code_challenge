@@ -1,92 +1,49 @@
-import * as React from "react"
+import { Eye, Layers } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-import { cn } from "@/lib/utils"
+type CardProps = {
+  genre: string;
+  title: string;
+  artist: string;
+  imageSrc: string;
+  className?: string;
+};
 
-function Card({ className, ...props }: React.ComponentProps<"div">) {
+function Card({ genre, title, artist, imageSrc, className }: CardProps) {
   return (
-    <div
-      data-slot="card"
+    <article
       className={cn(
-        "flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm",
-        className
+        "relative h-[620px] w-[420px] overflow-hidden rounded-[34px] border border-white/10",
+        className,
       )}
-      {...props}
-    />
-  )
+    >
+      <img
+        src={imageSrc}
+        alt={`${artist} track cover`}
+        className="absolute inset-0 h-full w-full object-cover"
+      />
+
+      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/45 to-black/70" />
+
+      <div className="absolute inset-0 flex flex-col px-10 py-9">
+
+        <p className="text-[18px] font-semibold uppercase tracking-[0.02em] text-[#d4e4ea]"> {genre} </p>
+        <div className="mt-4 h-[3px] w-full bg-[#ffe600]" />
+
+        <div className="mt-auto flex flex-col items-center">
+          <h2 className="text-[40px] font-bold leading-none text-[#f3f5f6]"> {title} </h2>
+          <p className="mt-4 text-[20px] font-semibold leading-none text-[#ffe600]"> {artist} </p>
+        </div>
+
+        <div className="mt-10 h-[3px] w-full bg-[#ffe600]" />
+
+        <div className="mt-5 flex items-center justify-center gap-5 text-[#ffe600]">
+          <Eye size={20} strokeWidth={2.2} />
+          <Layers size={20} strokeWidth={2.2} />
+        </div>
+      </div>
+    </article>
+  );
 }
 
-function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="card-header"
-      className={cn(
-        "@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6",
-        className
-      )}
-      {...props}
-    />
-  )
-}
-
-function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="card-title"
-      className={cn("leading-none font-semibold", className)}
-      {...props}
-    />
-  )
-}
-
-function CardDescription({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="card-description"
-      className={cn("text-sm text-muted-foreground", className)}
-      {...props}
-    />
-  )
-}
-
-function CardAction({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="card-action"
-      className={cn(
-        "col-start-2 row-span-2 row-start-1 self-start justify-self-end",
-        className
-      )}
-      {...props}
-    />
-  )
-}
-
-function CardContent({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="card-content"
-      className={cn("px-6", className)}
-      {...props}
-    />
-  )
-}
-
-function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="card-footer"
-      className={cn("flex items-center px-6 [.border-t]:pt-6", className)}
-      {...props}
-    />
-  )
-}
-
-export {
-  Card,
-  CardHeader,
-  CardFooter,
-  CardTitle,
-  CardAction,
-  CardDescription,
-  CardContent,
-}
+export { Card };
