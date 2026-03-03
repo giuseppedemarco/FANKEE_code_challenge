@@ -1,39 +1,35 @@
 from fastapi import APIRouter, Depends
-from app.modules.tracks.service import TrackService
-from app.modules.tracks.repository import TrackRepository
-from app.modules.users.service import UserService
-from app.modules.users.repository import UserRepository
-from app.modules.missions.dependencies import get_mission_generator_service
-from app.modules.missions.mission_generator_service import MissionGeneratorService
 from sqlalchemy.orm import Session
+
 from app.db.session import get_db
-from app.modules.tracks.schemas import TrackGenerateMissionPayload
+from app.modules.tracks.repository import TrackRepository
+from app.modules.tracks.schemas import TrackRead
+from app.modules.tracks.service import TrackService
 
 router = APIRouter()
+
 
 def get_track_repository(db: Session = Depends(get_db)) -> TrackRepository:
     return TrackRepository(db)
 
-def get_user_repository(db: Session = Depends(get_db)) -> UserRepository:
-    return UserRepository(db)
 
-def get_user_service(repo: UserRepository = Depends(get_user_repository)) -> UserService:
-    return UserService(repo)
+def get_track_service(repo: TrackRepository = Depends(get_track_repository)) -> TrackService:
+    return TrackService(repository=repo)
 
-def get_track_service(
-    repo: TrackRepository = Depends(get_track_repository),
-    user_service: UserService = Depends(get_user_service),
-    mission_generator_service: MissionGeneratorService = Depends(get_mission_generator_service),
-) -> TrackService:
-    return TrackService(
-        repository=repo,
-        user_service=user_service,
-        mission_generator_service=mission_generator_service,
-    )
 
-@router.post("/generate-missions")
-async def generate_missions(
-    payload: TrackGenerateMissionPayload, 
-    service: TrackService = Depends(get_track_service)
+@router.get("/{track_id}", response_model=TrackRead)
+def get_track(track_id: int, service: TrackService = Depends(get_track_service)):
+    return service.get_track(track_id)
+
+
+@router.get("/", response_model=list[TrackRead])
+def get_all_tracks(service: TrackService = Depends(get_track_service)):
+    return service.get_all_tracks()
+
+
+@router.post("/verify", response_model=TrackRead)
+def verify_existing_track(
+    artist_name: int,
+    service: TrackService = Depends(get_track_service),
 ):
-    return await service.generate_missions(payload)
+    return service.verify_existing_track(artist_name)
