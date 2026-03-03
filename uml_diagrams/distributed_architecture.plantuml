@@ -1,0 +1,17 @@
+@startuml
+title Distributed Architecture
+
+skinparam componentStyle rectangle
+
+component Frontend
+component "Main Backend" as MainBE
+component "AI Missions Generator" as AIMG
+component "LLM Provider" as LLM
+database Database
+
+Frontend --> MainBE
+MainBE --> AIMG : AI requests
+AIMG --> LLM : prompt / response
+MainBE --> Database
+
+@enduml

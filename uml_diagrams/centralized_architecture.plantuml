@@ -1,0 +1,15 @@
+@startuml
+title Centralized Architecture
+
+skinparam componentStyle rectangle
+
+component Frontend
+component "Main Backend\n(with AI Missions Generator module)" as MainBE
+component "LLM Provider" as LLM
+database Database
+
+Frontend --> MainBE
+MainBE --> LLM : prompt / response
+MainBE --> Database
+
+@enduml

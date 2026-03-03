@@ -4,6 +4,7 @@ sqlalchemy
 python-dotenv
 pydantic-settings
 pymysql
+cryptography
 torch
 llama-cpp-python
 huggingface_hub
