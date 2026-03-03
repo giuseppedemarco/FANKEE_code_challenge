@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+sqlalchemy
+python-dotenv
+pydantic-settings
+pymysql
+torch
+llama-cpp-python
+huggingface_hub
