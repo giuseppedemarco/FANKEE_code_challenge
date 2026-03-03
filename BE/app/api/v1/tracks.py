@@ -3,6 +3,8 @@ from app.modules.tracks.service import TrackService
 from app.modules.tracks.repository import TrackRepository
 from app.modules.users.service import UserService
 from app.modules.users.repository import UserRepository
+from app.modules.missions.dependencies import get_mission_generator_service
+from app.modules.missions.mission_generator_service import MissionGeneratorService
 from sqlalchemy.orm import Session
 from app.db.session import get_db
 from app.modules.tracks.schemas import TrackGenerateMissionPayload
@@ -20,9 +22,14 @@ def get_user_service(repo: UserRepository = Depends(get_user_repository)) -> Use
 
 def get_track_service(
     repo: TrackRepository = Depends(get_track_repository),
-    user_service: UserService = Depends(get_user_service)
+    user_service: UserService = Depends(get_user_service),
+    mission_generator_service: MissionGeneratorService = Depends(get_mission_generator_service),
 ) -> TrackService:
-    return TrackService(repo=repo, user_service=user_service)
+    return TrackService(
+        repository=repo,
+        user_service=user_service,
+        mission_generator_service=mission_generator_service,
+    )
 
 @router.post("/generate-missions")
 async def generate_missions(
