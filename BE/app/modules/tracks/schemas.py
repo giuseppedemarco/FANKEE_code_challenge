@@ -1,6 +1,15 @@
-from pydantic import BaseModel, Field
+from datetime import datetime
 
-class TrackGenerateMissionPayload(BaseModel):
-    artist_id: int
-    track_title: str = Field(..., max_length=255)
-    track_description: str
+from pydantic import BaseModel, ConfigDict
+
+
+class TrackRead(BaseModel):
+    id: int
+    artist_name: int
+    track_title: str | None = None
+    track_description: str | None = None
+    created_at: str | None = None
+    updated_at: datetime | None = None
+    deleted_at: str | None = None
+
+    model_config = ConfigDict(from_attributes=True)
