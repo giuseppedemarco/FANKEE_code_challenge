@@ -7,6 +7,7 @@ class TrackRead(BaseModel):
     id: int
     artist_name: int
     genre: str | None = None
+    artist_image_url: str | None = None
     track_title: str | None = None
     track_description: str | None = None
     created_at: str | None = None
