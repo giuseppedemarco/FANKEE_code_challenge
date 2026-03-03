@@ -1,16 +1,35 @@
 "use client";
 
-import { useEffect } from "react";
-import { motion, useMotionValue, useTransform } from "motion/react";
+import { useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
+import { motion, useMotionValue, useMotionValueEvent, useTransform } from "motion/react";
 
 export default function Home() {
-  const progress = useMotionValue(0);
+  const router = useRouter();
+  const redirectedRef = useRef(false);
+
+  //Page animation started at 0
+  const progress = useMotionValue(0); 
+
+  //When progress = 0, opacity = 1
+  //When progess = 1, opacity = 0
   const opacity = useTransform(progress, [0, 1], [1, 0]);
+
+  //When progress = 0, scale = 1
+  //When progess = 1, scale = 0.9
   const scale = useTransform(progress, [0, 1], [1, 0.9]);
+
+  useMotionValueEvent(progress, "change", (latest) => {
+    if (latest >= 1 && !redirectedRef.current) {
+      redirectedRef.current = true;
+      router.push("/username");
+    }
+  });
 
   useEffect(() => {
     let touchStartY = 0;
 
+    //Mouse scroll handling
     const onWheel = (event: WheelEvent) => {
       event.preventDefault();
       const next = Math.min(1, Math.max(0, progress.get() + event.deltaY * 0.0015));
