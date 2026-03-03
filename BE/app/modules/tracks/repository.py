@@ -14,10 +14,10 @@ class TrackRepository:
             .first()
         )
 
-    def get_by_nickname(self, nickname: str) -> Track | None:
+    def get_by_artist_name(self, artist_name: int) -> Track | None:
         return (
             self.db.query(Track)
-            .filter(Track.artist_name == nickname)
+            .filter(Track.artist_name == artist_name)
             .first()
         )
 
