@@ -45,8 +45,7 @@ _________________________
 
 - Go to the **Hugging Face** website and create a token  
   *(Fine-grained, no specific permissions required)*
-
-- In the `.env` file, set the following variables:
+- Create an `.env` file and set the following variables:
 
 ```env
 HUGGINGFACE_HUB_TOKEN=your_huggingface_token_here
