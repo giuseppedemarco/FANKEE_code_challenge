@@ -22,8 +22,4 @@ class UserService:
 
     def verify_existing_user(self, nickname: str):
         user = self.repo.get_by_nickname(nickname)
-        if not user:
-            raise ValueError("User not found")
-        if user.active != 1:
-            raise ValueError("User has been deleted")
-        return user
+        return bool(user and user.active == 1)

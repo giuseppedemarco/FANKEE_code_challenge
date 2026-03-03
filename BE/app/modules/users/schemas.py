@@ -28,4 +28,8 @@ class UserListItem(BaseModel):
     nickname: str
     active: int
 
+
+class UserVerifyResponse(BaseModel):
+    exists: bool
+
 # TODO: Aggiunta gestione dell'aggiornamento e della rimozione in futuro

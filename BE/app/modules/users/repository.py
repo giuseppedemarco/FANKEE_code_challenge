@@ -43,6 +43,7 @@ class UserRepository:
         user = User(
             nickname=payload.nickname,
             active=payload.active,
+            created_at=datetime.now(),
         )
         self.db.add(user)
         self.db.commit()

@@ -1,0 +1,7 @@
+.roundedRectangle {
+  width: 40px;
+  height: 56px;
+  border-radius: 100px;
+  background-color: #ffe600;
+  flex-shrink: 0;
+}
