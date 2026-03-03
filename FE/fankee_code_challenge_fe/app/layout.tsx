@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Roboto_Mono } from "next/font/google";
+import FankeeCornerLogo from "./components/FankeeCornerLogo";
 import "./globals.css";
 
 const robotoMono = Roboto_Mono({
@@ -21,6 +22,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${robotoMono.variable} antialiased`}>
         {children}
+        <FankeeCornerLogo />
       </body>
     </html>
   );
