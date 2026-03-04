@@ -1,7 +1,7 @@
 /*
  Navicat Premium Dump SQL
 
- Source Server         : FANKEE_code_challenge
+ Source Server         : fankee_code_challenge
  Source Server Type    : MySQL
  Source Server Version : 80044 (8.0.44)
  Source Host           : localhost:3306
@@ -11,7 +11,7 @@
  Target Server Version : 80044 (8.0.44)
  File Encoding         : 65001
 
- Date: 04/03/2026 08:36:31
+ Date: 04/03/2026 17:13:22
 */
 
 SET NAMES utf8mb4;
@@ -29,7 +29,7 @@ CREATE TABLE `artists`  (
   `deleted_at` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   INDEX `FK_user_id`(`artist_id` ASC) USING BTREE,
   CONSTRAINT `FK_user_id` FOREIGN KEY (`artist_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of artists
@@ -44,46 +44,6 @@ INSERT INTO `artists` VALUES (7, '1', '2026-03-03 01:47:11', NULL, NULL);
 INSERT INTO `artists` VALUES (8, '1', '2026-03-03 01:47:11', NULL, NULL);
 INSERT INTO `artists` VALUES (9, '1', '2026-03-03 01:47:11', NULL, NULL);
 INSERT INTO `artists` VALUES (10, '1', '2026-03-03 01:47:11', NULL, NULL);
-
--- ----------------------------
--- Table structure for artists_missions_completed
--- ----------------------------
-DROP TABLE IF EXISTS `artists_missions_completed`;
-CREATE TABLE `artists_missions_completed`  (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NULL DEFAULT NULL,
-  `track_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `track_description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `score` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `completed_at` datetime NULL DEFAULT NULL,
-  `updated_at` datetime NULL DEFAULT NULL,
-  `deleted_at` datetime NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `FK_user_id_missions`(`user_id` ASC) USING BTREE,
-  CONSTRAINT `FK_user_id_missions` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of artists_missions_completed
--- ----------------------------
-
--- ----------------------------
--- Table structure for leaderboard
--- ----------------------------
-DROP TABLE IF EXISTS `leaderboard`;
-CREATE TABLE `leaderboard`  (
-  `id` int NOT NULL,
-  `user_id` int NULL DEFAULT NULL,
-  `score` int NULL DEFAULT NULL,
-  `mission_completed` int NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `FK_artist_id`(`user_id` ASC) USING BTREE,
-  CONSTRAINT `FK_artist_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of leaderboard
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for tracks
@@ -102,7 +62,7 @@ CREATE TABLE `tracks`  (
   PRIMARY KEY (`id` DESC) USING BTREE,
   INDEX `FK_artist_name`(`artist_name` ASC) USING BTREE,
   CONSTRAINT `FK_artist_name` FOREIGN KEY (`artist_name`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 41 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 41 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tracks
@@ -162,7 +122,7 @@ CREATE TABLE `users`  (
   PRIMARY KEY (`id`, `nickname`) USING BTREE,
   INDEX `id`(`id` ASC) USING BTREE,
   INDEX `nickname`(`nickname` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 60 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 67 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of users
@@ -226,5 +186,34 @@ INSERT INTO `users` VALUES (56, 'Giuseppe3222', 1, '2026-03-04 01:38:16', NULL, 
 INSERT INTO `users` VALUES (57, 'fdfdsa', 1, '2026-03-04 01:41:05', NULL, NULL);
 INSERT INTO `users` VALUES (58, 'dfgfds', 1, '2026-03-04 01:42:33', NULL, NULL);
 INSERT INTO `users` VALUES (59, 'fdsafds', 1, '2026-03-04 01:43:04', NULL, NULL);
+INSERT INTO `users` VALUES (60, 'provaer3', 1, '2026-03-04 10:05:54', NULL, NULL);
+INSERT INTO `users` VALUES (61, 'hghfds564', 1, '2026-03-04 12:21:13', NULL, NULL);
+INSERT INTO `users` VALUES (62, 'hghfds564', 1, '2026-03-04 12:21:13', NULL, NULL);
+INSERT INTO `users` VALUES (63, 'hghfds564', 1, '2026-03-04 12:21:13', NULL, NULL);
+INSERT INTO `users` VALUES (64, 'hghfds564', 1, '2026-03-04 12:21:13', NULL, NULL);
+INSERT INTO `users` VALUES (65, 'hghfds564', 1, '2026-03-04 12:21:13', NULL, NULL);
+INSERT INTO `users` VALUES (66, 'fdsafwqgrq', 1, '2026-03-04 12:21:27', NULL, NULL);
+
+-- ----------------------------
+-- Table structure for users_missions_completed
+-- ----------------------------
+DROP TABLE IF EXISTS `users_missions_completed`;
+CREATE TABLE `users_missions_completed`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NULL DEFAULT NULL,
+  `track_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `track_description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `score` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `completed_at` datetime NULL DEFAULT NULL,
+  `updated_at` datetime NULL DEFAULT NULL,
+  `deleted_at` datetime NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `FK_user_id_missions`(`user_id` ASC) USING BTREE,
+  CONSTRAINT `FK_user_id_missions` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of users_missions_completed
+-- ----------------------------
 
 SET FOREIGN_KEY_CHECKS = 1;
