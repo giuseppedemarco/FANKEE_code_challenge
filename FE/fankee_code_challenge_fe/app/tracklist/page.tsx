@@ -81,7 +81,7 @@ export default function Tracklist() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, delay: 0.1, ease: "easeOut" }}
       >
-        <h1 className="text-center text-2xl text-[#ffe600] sm:text-3xl md:text-4xl">Choose your track</h1>
+        <h1 className="pt-1 text-center text-2xl text-[#ffe600] sm:pt-2 sm:text-3xl md:pt-4 md:text-2xl">Choose your track</h1>
       </motion.div>
       {loading ? (
         <motion.p
