@@ -74,18 +74,18 @@ export default function Tracklist() {
   }, []);
 
   return (
-    <div className="flex min-h-screen flex-col items-center bg-gradient-to-b from-[#6f6500] via-[#141300] to-black px-5 pt-8" >
+    <div className="relative flex min-h-screen flex-col items-center overflow-hidden bg-gradient-to-b from-[#6f6500] via-[#141300] to-black px-4 sm:px-6 lg:px-8">
       <motion.div
-        className="pt-10"
+        className="pointer-events-none absolute left-1/2 top-6 z-20 -translate-x-1/2 sm:top-8"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, delay: 0.1, ease: "easeOut" }}
       >
-        <h1 className="text-center text-[32px] text-[#ffe600]">Choose your track</h1>
+        <h1 className="text-center text-2xl text-[#ffe600] sm:text-3xl md:text-4xl">Choose your track</h1>
       </motion.div>
       {loading ? (
         <motion.p
-          className="mt-10 text-[#ffe600]"
+          className="mt-8 text-sm text-[#ffe600] sm:mt-10 sm:text-base"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.25 }}
@@ -95,7 +95,7 @@ export default function Tracklist() {
       ) : null}
       {error ? (
         <motion.p
-          className="mt-10 text-[#ffe600]"
+          className="mt-8 text-center text-sm text-[#ffe600] sm:mt-10 sm:text-base"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.25 }}
@@ -105,12 +105,12 @@ export default function Tracklist() {
       ) : null}
       {!loading && !error ? (
         <motion.div
-          className="flex w-full flex-1 items-center justify-center py-6"
+          className="flex min-h-screen w-full max-w-[1400px] items-center justify-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35, delay: 0.15, ease: "easeOut" }}
         >
-          <CircularGallery items={items} />
+          <CircularGallery className = "z-[10]" items={items} />
         </motion.div>
       ) : null}
     </div>
