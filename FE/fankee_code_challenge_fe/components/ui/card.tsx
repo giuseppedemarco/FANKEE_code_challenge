@@ -1,4 +1,7 @@
-import { Eye, Layers } from "lucide-react";
+"use client";
+
+import { Eye } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 type CardProps = {
@@ -10,6 +13,8 @@ type CardProps = {
 };
 
 function Card({ genre, title, artist, imageSrc, className }: CardProps) {
+  const router = useRouter();
+
   return (
     <article
       className={cn(
@@ -38,7 +43,12 @@ function Card({ genre, title, artist, imageSrc, className }: CardProps) {
         <div className="mt-10 h-[3px] w-full bg-[#ffe600]" />
 
         <div className="mt-5 flex items-center justify-center gap-5 text-[#ffe600]">
-          <Eye size={20} strokeWidth={2.2} />
+          <Eye
+            size={20}
+            strokeWidth={2.2}
+            className="cursor-pointer"
+            onClick={() => router.push("/missions")}
+          />
         </div>
       </div>
     </article>
