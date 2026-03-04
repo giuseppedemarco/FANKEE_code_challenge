@@ -1,10 +1,12 @@
 .circularGallery {
   width: 100%;
-  height: 78vh;
-  min-height: 620px;
+  height: 84vh;
+  min-height: 700px;
   position: relative;
   overflow: hidden;
   cursor: grab;
+  user-select: none;
+  touch-action: none;
 }
 
 .circularGallery:active {
@@ -27,18 +29,18 @@
 }
 
 .card {
-  width: 320px !important;
-  height: 500px !important;
+  width: 380px !important;
+  height: 590px !important;
 }
 
 @media (max-width: 768px) {
   .circularGallery {
-    min-height: 520px;
-    height: 68vh;
+    min-height: 620px;
+    height: 76vh;
   }
 
   .card {
-    width: 250px !important;
-    height: 390px !important;
+    width: 300px !important;
+    height: 470px !important;
   }
 }

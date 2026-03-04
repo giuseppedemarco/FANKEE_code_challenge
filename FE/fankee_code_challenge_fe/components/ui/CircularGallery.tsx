@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, WheelEvent } from "react";
+import { PointerEvent, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { Card } from "@/components/ui/card";
 import styles from "./CircularGallery.module.css";
@@ -17,8 +17,16 @@ type CircularGalleryProps = {
   items: CircularGalleryItem[];
 };
 
+const DRAG_STEP_PX = 120;
+
 export default function CircularGallery({ items }: CircularGalleryProps) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const dragStateRef = useRef({
+    isDragging: false,
+    pointerId: -1,
+    lastX: 0,
+    dragAccumulator: 0,
+  });
   const count = items.length;
 
   const moveBy = (delta: number) => {
@@ -26,14 +34,60 @@ export default function CircularGallery({ items }: CircularGalleryProps) {
     setActiveIndex((prev) => (prev + delta + count) % count);
   };
 
-  const onWheel = (event: WheelEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    const direction = event.deltaY > 0 ? 1 : -1;
-    moveBy(direction);
+  const onPointerDown = (event: PointerEvent<HTMLDivElement>) => {
+    if (event.button !== 0) return;
+    const target = event.target as HTMLElement;
+    if (target.closest("[data-no-drag='true'], button, a, input, textarea, select")) return;
+
+    dragStateRef.current = {
+      isDragging: true,
+      pointerId: event.pointerId,
+      lastX: event.clientX,
+      dragAccumulator: 0,
+    };
+
+    event.currentTarget.setPointerCapture(event.pointerId);
+  };
+
+  const onPointerMove = (event: PointerEvent<HTMLDivElement>) => {
+    const dragState = dragStateRef.current;
+    if (!dragState.isDragging || dragState.pointerId !== event.pointerId) return;
+
+    const deltaX = event.clientX - dragState.lastX;
+    dragState.lastX = event.clientX;
+    dragState.dragAccumulator += deltaX;
+
+    while (Math.abs(dragState.dragAccumulator) >= DRAG_STEP_PX) {
+      const direction = dragState.dragAccumulator < 0 ? 1 : -1;
+      moveBy(direction);
+      dragState.dragAccumulator += dragState.dragAccumulator < 0 ? DRAG_STEP_PX : -DRAG_STEP_PX;
+    }
+  };
+
+  const onPointerEnd = (event: PointerEvent<HTMLDivElement>) => {
+    const dragState = dragStateRef.current;
+    if (!dragState.isDragging || dragState.pointerId !== event.pointerId) return;
+
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+
+    dragStateRef.current = {
+      isDragging: false,
+      pointerId: -1,
+      lastX: 0,
+      dragAccumulator: 0,
+    };
   };
 
   return (
-    <div className={styles.circularGallery} onWheel={onWheel}>
+    <div
+      className={styles.circularGallery}
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
+      onPointerUp={onPointerEnd}
+      onPointerCancel={onPointerEnd}
+    >
       <div className={styles.stage}>
         {items.map((item, index) => {
           let relative = (index - activeIndex + count) % count;
