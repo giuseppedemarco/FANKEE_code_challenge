@@ -62,6 +62,11 @@ export default function Username() {
         return;
       }
 
+      const createdUserId = Number(createData?.id);
+      if (Number.isInteger(createdUserId) && createdUserId > 0) {
+        window.localStorage.setItem("fankee_user_id", String(createdUserId));
+      }
+
       setIsUserCreated(true);
       setMessage("");
     } catch {

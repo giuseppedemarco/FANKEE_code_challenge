@@ -6,6 +6,8 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { GenerateMissionsResponse, Mission } from "@/lib/models/missions";
 import { MissionDifficulty, MissionCompletedRead } from "@/lib/models/missions-completed";
 
+const MAX_TRACK_DESCRIPTION_LENGTH = 255;
+
 const normalizeDifficulty = (effortLevel: string): MissionDifficulty => {
   const normalized = effortLevel.trim().toLowerCase();
   if (normalized === "low") {
@@ -21,7 +23,7 @@ export default function Missions() {
   const searchParams = useSearchParams();
 
   const artist = searchParams.get("artist") ?? "Unknown artist";
-  const userIdParam = searchParams.get("id");
+  const userIdParam = searchParams.get("userId") ?? searchParams.get("id");
   const title = searchParams.get("title") ?? "Untitled track";
   const genre = searchParams.get("genre") ?? "Unknown genre";
   const description = searchParams.get("description") ?? genre;
@@ -37,6 +39,10 @@ export default function Missions() {
   const [completedMissionIndexes, setCompletedMissionIndexes] = useState<number[]>([]);
 
   const handleMissionCompleted = async (mission: Mission, missionIndex: number) => {
+    if (completedMissionIndexes.includes(missionIndex) || savingMissionIndex === missionIndex) {
+      return;
+    }
+
     if (!Number.isInteger(userId) || userId <= 0) {
       setSaveMessage("User id not found. Unable to save completion.");
       return;
@@ -52,7 +58,7 @@ export default function Missions() {
         body: JSON.stringify({
           user_id: userId,
           track_title: title,
-          track_description: mission.description,
+          track_description: mission.description.slice(0, MAX_TRACK_DESCRIPTION_LENGTH),
           difficulty: normalizeDifficulty(mission.effort_level),
         }),
       });
@@ -180,10 +186,16 @@ export default function Missions() {
                       <div className="mt-6 flex justify-end">
                         <button
                           type="button"
-                          disabled={savingMissionIndex === index}
+                          disabled={savingMissionIndex === index || completedMissionIndexes.includes(index)}
                           onClick={() => void handleMissionCompleted(mission, index)}
                           className="h-6 w-6 rounded-full border-2 border-[#ffe600] transition-opacity hover:opacity-85 disabled:cursor-not-allowed disabled:opacity-60"
-                          aria-label={savingMissionIndex === index ? "Saving mission" : "Mark mission as completed"}
+                          aria-label={
+                            savingMissionIndex === index
+                              ? "Saving mission"
+                              : completedMissionIndexes.includes(index)
+                                ? "Mission completed"
+                                : "Mark mission as completed"
+                          }
                         >
                           <span
                             className={`block h-full w-full rounded-full transition-colors ${

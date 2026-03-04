@@ -7,7 +7,8 @@ import { cn } from "@/lib/utils";
 import styles from "./CircularGallery.module.css";
 
 export type CircularGalleryItem = {
-  id: number;
+  trackId: number;
+  userId: number | null;
   genre: string;
   title: string;
   artist: string;
@@ -105,7 +106,7 @@ export default function CircularGallery({ items, className }: CircularGalleryPro
 
           return (
             <motion.div
-              key={item.id}
+              key={item.trackId}
               className={styles.trackSlot}
               initial={{ opacity: 0, y: 24, scale: 0.92 }}
               style={{
@@ -126,7 +127,8 @@ export default function CircularGallery({ items, className }: CircularGalleryPro
               }}
             >
               <Card
-                id={item.id}
+                trackId={item.trackId}
+                userId={item.userId}
                 genre={item.genre}
                 title={item.title}
                 artist={item.artist}

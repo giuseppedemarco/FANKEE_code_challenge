@@ -7,7 +7,8 @@ import { TrackRead } from "@/lib/models/tracks";
 import { UserRead } from "@/lib/models/users";
 
 type TrackCardItem = {
-  id: number;
+  trackId: number;
+  userId: number | null;
   genre: string;
   title: string;
   artist: string;
@@ -16,8 +17,16 @@ type TrackCardItem = {
 
 export default function Tracklist() {
   const [items, setItems] = useState<TrackCardItem[]>([]);
+  const [currentUserId, setCurrentUserId] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const savedUserId = Number(window.localStorage.getItem("fankee_user_id"));
+    if (Number.isInteger(savedUserId) && savedUserId > 0) {
+      setCurrentUserId(savedUserId);
+    }
+  }, []);
 
   useEffect(() => {
     let isMounted = true;
@@ -44,7 +53,8 @@ export default function Tracklist() {
         const userById = new Map<number, string>(users.map((user) => [user.id, user.nickname]));
 
         const mappedItems: TrackCardItem[] = tracks.map((track) => ({
-          id: track.id,
+          trackId: track.id,
+          userId: currentUserId,
           genre: track.genre ?? "Unknown genre",
           title: track.track_title ?? "Untitled track",
           artist: userById.get(track.artist_name) ?? `Artist #${track.artist_name}`,
@@ -71,7 +81,7 @@ export default function Tracklist() {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [currentUserId]);
 
   return (
     <div className="relative flex min-h-screen flex-col items-center overflow-hidden bg-gradient-to-b from-[#6f6500] via-[#141300] to-black px-4 sm:px-6 lg:px-8">
