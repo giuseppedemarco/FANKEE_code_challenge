@@ -1,0 +1,44 @@
+.circularGallery {
+  width: 100%;
+  height: 78vh;
+  min-height: 620px;
+  position: relative;
+  overflow: hidden;
+  cursor: grab;
+}
+
+.circularGallery:active {
+  cursor: grabbing;
+}
+
+.stage {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.trackSlot {
+  position: absolute;
+  transition: transform 260ms ease, opacity 260ms ease;
+  will-change: transform, opacity;
+}
+
+.card {
+  width: 320px !important;
+  height: 500px !important;
+}
+
+@media (max-width: 768px) {
+  .circularGallery {
+    min-height: 520px;
+    height: 68vh;
+  }
+
+  .card {
+    width: 250px !important;
+    height: 390px !important;
+  }
+}
