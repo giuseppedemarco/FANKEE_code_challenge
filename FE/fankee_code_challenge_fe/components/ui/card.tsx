@@ -39,7 +39,6 @@ function Card({ genre, title, artist, imageSrc, className }: CardProps) {
 
         <div className="mt-5 flex items-center justify-center gap-5 text-[#ffe600]">
           <Eye size={20} strokeWidth={2.2} />
-          <Layers size={20} strokeWidth={2.2} />
         </div>
       </div>
     </article>
