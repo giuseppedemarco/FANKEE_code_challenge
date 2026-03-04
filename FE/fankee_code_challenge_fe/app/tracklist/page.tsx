@@ -84,24 +84,24 @@ export default function Tracklist() {
         <h1 className="pt-1 text-center text-2xl text-[#ffe600] sm:pt-2 sm:text-3xl md:pt-4 md:text-2xl">Choose your track</h1>
       </motion.div>
       {loading ? (
-        <motion.p
-          className="mt-8 text-sm text-[#ffe600] sm:mt-10 sm:text-base"
+        <motion.div
+          className="flex min-h-screen w-full items-center justify-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.25 }}
         >
-          Loading tracks...
-        </motion.p>
+          <p className="text-sm text-[#ffe600] sm:text-base">Loading tracks...</p>
+        </motion.div>
       ) : null}
       {error ? (
-        <motion.p
-          className="mt-8 text-center text-sm text-[#ffe600] sm:mt-10 sm:text-base"
+        <motion.div
+          className="flex min-h-screen w-full items-center justify-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.25 }}
         >
-          {error}
-        </motion.p>
+          <p className="text-center text-sm text-[#ffe600] sm:text-base">{error}</p>
+        </motion.div>
       ) : null}
       {!loading && !error ? (
         <motion.div
