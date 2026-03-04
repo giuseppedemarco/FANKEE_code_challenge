@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 type CardProps = {
+  id: number;
   genre: string;
   title: string;
   artist: string;
@@ -12,8 +13,19 @@ type CardProps = {
   className?: string;
 };
 
-function Card({ genre, title, artist, imageSrc, className }: CardProps) {
+function Card({ id, genre, title, artist, imageSrc, className }: CardProps) {
   const router = useRouter();
+
+  const onOpenMissions = () => {
+    const params = new URLSearchParams({
+      id: String(id),
+      artist,
+      title,
+      genre,
+      imageSrc,
+    });
+    router.push(`/tracklist/missions?${params.toString()}`);
+  };
 
   return (
     <article
@@ -47,7 +59,7 @@ function Card({ genre, title, artist, imageSrc, className }: CardProps) {
             size={20}
             strokeWidth={2.2}
             className="cursor-pointer"
-            onClick={() => router.push("/missions")}
+            onClick={onOpenMissions}
           />
         </div>
       </div>
