@@ -66,7 +66,7 @@ and greater flexibility in developing, deploying, and maintaining independent mo
 
 _________________________
 
-**How to Use - AI-Mission-Generator**
+**How to Use - AI-Mission-Generator and run backend**
 _________________________
 
 1. Edit the `.env` file 
@@ -103,7 +103,7 @@ python3 models/install_models.py
 
 7. Start the FastAPI server:
 ```
-cd backend
+cd BE
 python3 main.py
 ```
 7. Visit swagger at http://localhost:8001/docs#/
@@ -160,6 +160,15 @@ python3 main.py
 * **Method:** `POST`
 * **Endpoint:** `/v1/missions/generate-missions`
 
+_________________________
+
+**How to run frontend**
+_________________________
+```
+cd FE
+cd ./fankee_code_challenge_fe
+npm run dev
+```
 ---
 # Good to Know about Front-end
 ### USE CASE DIAGRAM - tracklist card creation
