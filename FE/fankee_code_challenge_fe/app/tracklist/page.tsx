@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { motion } from "motion/react";
 import CircularGallery from "@/components/ui/CircularGallery";
 import { TrackRead } from "@/lib/models/tracks";
 import { UserRead } from "@/lib/models/users";
@@ -73,7 +74,13 @@ export default function Tracklist() {
   }, []);
 
   return (
-    <main className="flex min-h-screen flex-col items-center bg-gradient-to-b from-[#6f6500] via-[#141300] to-black px-5 pt-8">
+    <motion.main
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -16 }}
+      transition={{ duration: 0.35, ease: "easeOut" }}
+      className="flex min-h-screen flex-col items-center bg-gradient-to-b from-[#6f6500] via-[#141300] to-black px-5 pt-8"
+    >
       <div className="pt-10">
         <h1 className="text-center text-[32px] text-[#ffe600]">Choose your track</h1>
       </div>
@@ -84,6 +91,6 @@ export default function Tracklist() {
           <CircularGallery items={items} />
         </div>
       ) : null}
-    </main>
+    </motion.main>
   );
 }
