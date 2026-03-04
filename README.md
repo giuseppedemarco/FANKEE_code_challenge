@@ -69,11 +69,8 @@ _________________________
 **How to Use - AI-Mission-Generator and run backend**
 _________________________
 
-1. Edit the `.env` file 
-
-- Go to the **Hugging Face** website and create a token  
-  *(Fine-grained, no specific permissions required)*
-- Create an `.env` file and set the following variables:
+1. Go to the **Hugging Face** website and create a token  
+  *(Fine-grained, no specific permissions required)* . Create an `.env` file and set the following variables:
 
 ```env
 HUGGINGFACE_HUB_TOKEN=your_huggingface_token_here
@@ -92,7 +89,7 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 3. Install dependecies:
 ```
-Install dependencies: pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 4. Install the model from the AI-Mission-Generator:
 ```
@@ -106,7 +103,7 @@ python3 models/install_models.py
 cd BE
 python3 main.py
 ```
-7. Visit swagger at http://localhost:8001/docs#/
+7. Visit swagger at http://localhost:your_port/docs
 
 # API Endpoints
 
@@ -160,6 +157,11 @@ python3 main.py
 * **Method:** `POST`
 * **Endpoint:** `/v1/missions/generate-missions`
 
+_________________________
+
+**Good to know about DB**
+_________________________
+Import the SQL file from the DB folder into MySQL to set up the database.
 _________________________
 
 **How to run frontend**
