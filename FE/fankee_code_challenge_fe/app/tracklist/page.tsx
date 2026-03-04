@@ -105,7 +105,7 @@ export default function Tracklist() {
       ) : null}
       {!loading && !error ? (
         <motion.div
-          className="mt-10 w-full pb-10"
+          className="flex w-full flex-1 items-center justify-center py-6"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35, delay: 0.15, ease: "easeOut" }}
