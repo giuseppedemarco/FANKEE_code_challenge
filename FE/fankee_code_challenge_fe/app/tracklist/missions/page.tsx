@@ -4,19 +4,80 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { GenerateMissionsResponse, Mission } from "@/lib/models/missions";
+import { MissionDifficulty, MissionCompletedRead } from "@/lib/models/missions-completed";
+
+const normalizeDifficulty = (effortLevel: string): MissionDifficulty => {
+  const normalized = effortLevel.trim().toLowerCase();
+  if (normalized === "low") {
+    return "Low";
+  }
+  if (normalized === "medium") {
+    return "Medium";
+  }
+  return "Hard";
+};
 
 export default function Missions() {
   const searchParams = useSearchParams();
 
   const artist = searchParams.get("artist") ?? "Unknown artist";
+  const userIdParam = searchParams.get("id");
   const title = searchParams.get("title") ?? "Untitled track";
   const genre = searchParams.get("genre") ?? "Unknown genre";
   const description = searchParams.get("description") ?? genre;
   const imageSrc = searchParams.get("imageSrc") ?? "";
+  const userId = Number(userIdParam);
 
   const [missions, setMissions] = useState<Mission[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [saveMessage, setSaveMessage] = useState("");
+  const [savingMissionIndex, setSavingMissionIndex] = useState<number | null>(null);
+  const [openMissionValue, setOpenMissionValue] = useState("");
+  const [completedMissionIndexes, setCompletedMissionIndexes] = useState<number[]>([]);
+
+  const handleMissionCompleted = async (mission: Mission, missionIndex: number) => {
+    if (!Number.isInteger(userId) || userId <= 0) {
+      setSaveMessage("User id not found. Unable to save completion.");
+      return;
+    }
+
+    setSaveMessage("");
+    setSavingMissionIndex(missionIndex);
+
+    try {
+      const response = await fetch("/api/missions-completed", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_id: userId,
+          track_title: title,
+          track_description: mission.description,
+          difficulty: normalizeDifficulty(mission.effort_level),
+        }),
+      });
+
+      const data = (await response.json()) as MissionCompletedRead & {
+        error?: string;
+        detail?: string;
+      };
+
+      if (!response.ok) {
+        throw new Error(data.detail?.toString() ?? data.error ?? "Error while saving mission completion.");
+      }
+
+      setCompletedMissionIndexes((prev) => (
+        prev.includes(missionIndex) ? prev : [...prev, missionIndex]
+      ));
+      setOpenMissionValue("");
+      setSaveMessage(`Mission completed. +${data.score} points.`);
+    } catch (saveError) {
+      const message = saveError instanceof Error ? saveError.message : "Error while saving mission completion.";
+      setSaveMessage(message);
+    } finally {
+      setSavingMissionIndex(null);
+    }
+  };
 
   useEffect(() => {
     let isMounted = true;
@@ -94,8 +155,15 @@ export default function Missions() {
           <section className="relative z-30 mt-8 w-full max-w-[620px] space-y-4 xl:ml-[calc(50%+1.5rem)] xl:mr-6 xl:mt-16 xl:w-[min(620px,calc(50%-3rem))]">
             {loading ? <p className="text-white/80">Loading missions...</p> : null}
             {error ? <p className="text-[#ffe600]">{error}</p> : null}
+            {saveMessage ? <p className="text-sm text-[#ffe600]">{saveMessage}</p> : null}
             {!loading && !error ? (
-              <Accordion type="single" collapsible className="space-y-4">
+              <Accordion
+                type="single"
+                collapsible
+                value={openMissionValue}
+                onValueChange={setOpenMissionValue}
+                className="space-y-4"
+              >
                 {missions.map((mission, index) => (
                   <AccordionItem key={`${mission.title}-${index}`} value={`mission-${index}`} >
                     <AccordionTrigger className="py-2 text-left hover:no-underline">
@@ -110,10 +178,22 @@ export default function Missions() {
                     <AccordionContent className="pb-3 pt-2 text-sm text-white/80 sm:text-base">
                       <p>{mission.description}</p>
                       <div className="mt-6 flex justify-end">
-                        <button type="button" className="flex items-center gap-3 text-base text-[#ffe600] transition-opacity hover:opacity-85 sm:text-lg 1xl:text-1xl" >
-                          <span className="inline-block h-6 w-6 rounded-full border-2 border-[#ffe600]" />
-                          <span>Mark as completed</span>
+                        <button
+                          type="button"
+                          disabled={savingMissionIndex === index}
+                          onClick={() => void handleMissionCompleted(mission, index)}
+                          className="h-6 w-6 rounded-full border-2 border-[#ffe600] transition-opacity hover:opacity-85 disabled:cursor-not-allowed disabled:opacity-60"
+                          aria-label={savingMissionIndex === index ? "Saving mission" : "Mark mission as completed"}
+                        >
+                          <span
+                            className={`block h-full w-full rounded-full transition-colors ${
+                              completedMissionIndexes.includes(index) ? "bg-[#ffe600]" : "bg-transparent"
+                            }`}
+                          />
                         </button>
+                        <span className="ml-3 text-base text-[#ffe600] sm:text-lg 2xl:text-xl">
+                          {savingMissionIndex === index ? "Saving..." : "Mark as completed"}
+                        </span>
                       </div>
                     </AccordionContent>
                   </AccordionItem>
