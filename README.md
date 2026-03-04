@@ -169,6 +169,7 @@ _________________________
 ```
 cd FE
 cd ./fankee_code_challenge_fe
+npm i
 npm run dev
 ```
 ---
