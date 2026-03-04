@@ -1,4 +1,32 @@
-**Good To Know**
+<div style="display:flex; justify-content:center; align-items:center; width:100%;">
+  <img src="./FE/fankee_code_challenge_fe/public/FANKEE_logo_playground.svg" alt="FANKEE Playground Logo" style="width:450px; max-width:110vw; height:auto; display:block; margin:0 auto;"/>
+</div>
+_________________________
+
+**UX/UI**
+
+Fankee Playground is a music playground app where users pick a track and complete short “missions”. The UX/UI should feel trustworthy and user-centered, aligning with common streaming habits: 
+- fast track selection,
+- clear progress,
+- leaderboard
+Use accessible, high-contrast colors (often optimized for dark mode) and consistent UI states to reinforce reliability. To boost engagement, rely on validated UI principles: clear visual hierarchy (reduce choice overload), immediate feedback (micro-interactions), easy-to-tap controls, progress indicators, and lightweight personalization missions feel rewarding without adding friction.
+
+Here are some mock-up made for FANKEE Playground application made with FIGMA:
+<div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: center;">
+
+  <img src="https://github.com/user-attachments/assets/20eb931a-bd55-4a71-a19b-73548dfb2db6" alt="image" style="width: 31%; max-width: 300px; height: auto;" />
+  <img src="https://github.com/user-attachments/assets/50f28f93-3664-4807-a530-79061ab0507e" alt="image" style="width: 31%; max-width: 300px; height: auto;" />
+  <img src="https://github.com/user-attachments/assets/c2883a15-8b06-4290-9cd6-a4bb59374668" alt="image" style="width: 31%; max-width: 300px; height: auto;" />
+
+  <img src="https://github.com/user-attachments/assets/3e44abc4-e6c4-4a99-a3c6-646467685721" alt="image" style="width: 31%; max-width: 300px; height: auto;" />
+  <img src="https://github.com/user-attachments/assets/3f1558d3-db93-4fc4-b332-58cf27128f67" alt="image" style="width: 31%; max-width: 300px; height: auto;" />
+  <img src="https://github.com/user-attachments/assets/f05f6a54-cc49-49df-b5ba-dfe25c77df1f" alt="image" style="width: 31%; max-width: 300px; height: auto;" />
+
+</div>
+
+_________________
+
+**Good To Know About Backend**
 _________________________
 
 At the beginning, having a separated AI Service allowed clear separation between the logic for mission generation and the rest of application's business logic. 
@@ -80,5 +108,74 @@ python3 main.py
 ```
 7. Visit swagger at http://localhost:8001/docs#/
 
-```
+# API Endpoints
+
+## Users
+
+### Get User
+
+* **Method:** `GET`
+* **Endpoint:** `/v1/users/{user_id}`
+
+### Get All Users
+
+* **Method:** `GET`
+* **Endpoint:** `/v1/users/`
+
+### Create User
+
+* **Method:** `POST`
+* **Endpoint:** `/v1/users/`
+
+### Verify Existing User
+
+* **Method:** `POST`
+* **Endpoint:** `/v1/users/verify`
+
+---
+
+## Tracks
+
+### Get Track
+
+* **Method:** `GET`
+* **Endpoint:** `/v1/tracks/{track_id}`
+
+### Get All Tracks
+
+* **Method:** `GET`
+* **Endpoint:** `/v1/tracks/`
+
+### Verify Existing Track
+
+* **Method:** `POST`
+* **Endpoint:** `/v1/tracks/verify`
+
+---
+
+## Missions
+
+### Generate Missions
+
+* **Method:** `POST`
+* **Endpoint:** `/v1/missions/generate-missions`
+
+---
+# Good to Know about Front-end
+### USE CASE DIAGRAM - tracklist card creation
+When the user opens /tracklist, the client page requests both tracks (/api/tracks) and users (/api/users) from the frontend API routes.
+Those routes proxy the calls to the backend (/v1/tracks/ and /v1/users/), which fetch data from the database and return tracks[] and users[] (necessary to obtain artist_name).
+
+On the client, the app builds a Map<userId, nickname> from users[] and maps each track into a card-friendly item:
+
+- title from track.track_title
+- genre from track.genre
+- artist by resolving track.artist_name (user id) to the user nickname
+
+If any API call fails, the UI shows an error message.
+If successful, the page renders a gallery of cards per mapped item, and the user can see/select tracks in the UI.
+
+
+<img width="1725" height="1357" alt="image" src="https://github.com/user-attachments/assets/5b221a9d-5b16-49c5-ac93-e28c97a52d76" />
+
 
