@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, WheelEvent } from "react";
+import { motion } from "motion/react";
 import { Card } from "@/components/ui/card";
 import styles from "./CircularGallery.module.css";
 
@@ -47,14 +48,25 @@ export default function CircularGallery({ items }: CircularGalleryProps) {
           const zIndex = 100 - abs;
 
           return (
-            <div
+            <motion.div
               key={item.id}
               className={styles.trackSlot}
+              initial={{ opacity: 0, y: 24, scale: 0.92 }}
               style={{
-                transform: `translateX(${x}px) scale(${scale}) rotateY(${rotate}deg)`,
-                opacity,
                 zIndex,
                 pointerEvents: hidden ? "none" : "auto",
+              }}
+              animate={{
+                opacity,
+                x,
+                scale,
+                rotateY: rotate,
+              }}
+              transition={{
+                opacity: { duration: 0.24, ease: "easeOut" },
+                x: { type: "spring", stiffness: 180, damping: 22 },
+                scale: { duration: 0.24, ease: "easeOut" },
+                rotateY: { duration: 0.24, ease: "easeOut" },
               }}
             >
               <Card
@@ -64,7 +76,7 @@ export default function CircularGallery({ items }: CircularGalleryProps) {
                 imageSrc={item.imageSrc}
                 className={styles.card}
               />
-            </div>
+            </motion.div>
           );
         })}
       </div>
