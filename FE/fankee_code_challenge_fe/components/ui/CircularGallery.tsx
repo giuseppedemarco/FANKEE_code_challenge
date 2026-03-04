@@ -70,6 +70,7 @@ export default function CircularGallery({ items }: CircularGalleryProps) {
               }}
             >
               <Card
+                id={item.id}
                 genre={item.genre}
                 title={item.title}
                 artist={item.artist}
