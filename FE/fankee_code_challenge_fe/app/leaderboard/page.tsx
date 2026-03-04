@@ -91,7 +91,7 @@ export default function Leaderboard() {
               key={entry.userId}
               className={`text-xl text-[#ffe600] ${entry.userId === currentUserId ? "font-bold" : "font-normal"}`}
             >
-              {index + 1}. {entry.nickname}
+              {index + 1}. {entry.nickname} - {entry.totalScore} pts
             </p>
           ))}
         </section>
