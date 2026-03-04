@@ -1,0 +1,51 @@
+@startuml
+title Tracklist Card Generation Flow
+
+actor User
+participant "Tracklist Page\n(Next.js Client)" as Tracklist
+participant "FE API /api/tracks\n(Next Route Handler)" as FETracks
+participant "FE API /api/users\n(Next Route Handler)" as FEUsers
+participant "BE /v1/tracks" as BETracks
+participant "BE /v1/users" as BEUsers
+database "DB" as DB
+participant "Card Component" as Card
+
+User -> Tracklist: Open /tracklist
+activate Tracklist
+
+Tracklist -> FETracks: GET /api/tracks (no-store)
+activate FETracks
+FETracks -> BETracks: GET /v1/tracks/
+activate BETracks
+BETracks -> DB: SELECT tracks
+DB --> BETracks: tracks[]
+BETracks --> FETracks: tracks[] (TrackRead)
+deactivate BETracks
+FETracks --> Tracklist: tracks[]
+deactivate FETracks
+
+Tracklist -> FEUsers: GET /api/users (no-store)
+activate FEUsers
+FEUsers -> BEUsers: GET /v1/users/
+activate BEUsers
+BEUsers -> DB: SELECT users
+DB --> BEUsers: users[]
+BEUsers --> FEUsers: users[] (UserRead)
+deactivate BEUsers
+FEUsers --> Tracklist: users[]
+deactivate FEUsers
+
+Tracklist -> Tracklist: Build Map<userId, nickname>\nfrom users[]
+Tracklist -> Tracklist: Map tracks[] -> items[]\nitem.artist = userById.get(track.artist_name)\nitem.genre = track.genre\nitem.title = track.track_title
+
+alt API error
+  Tracklist -> User: Show error message
+else Success
+  loop For each item in items[]
+    Tracklist -> Card: Render Card(item)
+    Card --> User: Card visible in UI
+  end
+end
+
+deactivate Tracklist
+@enduml
