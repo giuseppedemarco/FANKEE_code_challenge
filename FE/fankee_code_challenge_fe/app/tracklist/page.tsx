@@ -74,23 +74,45 @@ export default function Tracklist() {
   }, []);
 
   return (
-    <motion.main
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -16 }}
-      transition={{ duration: 0.35, ease: "easeOut" }}
-      className="flex min-h-screen flex-col items-center bg-gradient-to-b from-[#6f6500] via-[#141300] to-black px-5 pt-8"
-    >
-      <div className="pt-10">
+    <div className="flex min-h-screen flex-col items-center bg-gradient-to-b from-[#6f6500] via-[#141300] to-black px-5 pt-8" >
+      <motion.div
+        className="pt-10"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.1, ease: "easeOut" }}
+      >
         <h1 className="text-center text-[32px] text-[#ffe600]">Choose your track</h1>
-      </div>
-      {loading ? <p className="mt-10 text-[#ffe600]">Loading tracks...</p> : null}
-      {error ? <p className="mt-10 text-[#ffe600]">{error}</p> : null}
-      {!loading && !error ? (
-        <div className="mt-10 w-full pb-10">
-          <CircularGallery items={items} />
-        </div>
+      </motion.div>
+      {loading ? (
+        <motion.p
+          className="mt-10 text-[#ffe600]"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.25 }}
+        >
+          Loading tracks...
+        </motion.p>
       ) : null}
-    </motion.main>
+      {error ? (
+        <motion.p
+          className="mt-10 text-[#ffe600]"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.25 }}
+        >
+          {error}
+        </motion.p>
+      ) : null}
+      {!loading && !error ? (
+        <motion.div
+          className="mt-10 w-full pb-10"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35, delay: 0.15, ease: "easeOut" }}
+        >
+          <CircularGallery items={items} />
+        </motion.div>
+      ) : null}
+    </div>
   );
 }
