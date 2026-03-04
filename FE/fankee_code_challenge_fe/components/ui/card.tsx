@@ -30,9 +30,9 @@ function Card({ genre, title, artist, imageSrc, className }: CardProps) {
         <p className="text-[18px] font-semibold uppercase tracking-[0.02em] text-[#d4e4ea]"> {genre} </p>
         <div className="mt-4 h-[3px] w-full bg-[#ffe600]" />
 
-        <div className="mt-auto flex flex-col items-center">
-          <h2 className="text-[40px] font-bold leading-none text-[#f3f5f6]"> {title} </h2>
-          <p className="mt-4 text-[20px] font-semibold leading-none text-[#ffe600]"> {artist} </p>
+        <div className="mt-auto flex flex-col items-center text-center">
+          <h2 className="text-center text-[25px] font-bold leading-none text-[#f3f5f6]">{title}</h2>
+          <p className="mt-4 text-center text-[15px] font-semibold leading-none text-[#ffe600]">{artist}</p>
         </div>
 
         <div className="mt-10 h-[3px] w-full bg-[#ffe600]" />
