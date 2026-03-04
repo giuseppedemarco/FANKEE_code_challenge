@@ -18,15 +18,6 @@ export async function POST(request: Request) {
   const track_title = payload.track_title?.trim();
   const track_description = payload.track_description?.trim();
 
-  if (!artist_name || !track_title || !track_description) {
-    return NextResponse.json(
-      {
-        error: "artist_name, track_title and track_description are required",
-      },
-      { status: 400 },
-    );
-  }
-
   try {
     const missions = await backendFetch<GenerateMissionsResponse>(
       "/v1/missions/generate-missions",
