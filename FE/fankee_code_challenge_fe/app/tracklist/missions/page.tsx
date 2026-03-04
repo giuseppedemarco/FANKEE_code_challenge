@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { GenerateMissionsResponse, Mission } from "@/lib/models/missions";
 import { MissionDifficulty, MissionCompletedRead } from "@/lib/models/missions-completed";
@@ -20,6 +20,7 @@ const normalizeDifficulty = (effortLevel: string): MissionDifficulty => {
 };
 
 export default function Missions() {
+  const router = useRouter();
   const searchParams = useSearchParams();
 
   const artist = searchParams.get("artist") ?? "Unknown artist";
@@ -214,7 +215,21 @@ export default function Missions() {
             ) : null}
           </section>
         </div>
+        <button
+          type="button"
+          onClick={() => {
+            if (window.history.length > 1) {
+              router.back();
+              return;
+            }
+            router.push("/tracklist");
+          }}
+          className="fixed bottom-6 left-1/2 z-[30] -translate-x-1/2 rounded-full border border-[#ffe600] bg-black/60 px-6 py-2 text-[#ffe600] transition-opacity hover:opacity-85"
+        >
+          Back
+        </button>
       </main>
     </div>
+    
   );
 }
