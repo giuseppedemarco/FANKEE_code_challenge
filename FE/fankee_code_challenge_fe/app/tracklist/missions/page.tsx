@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { GenerateMissionsResponse, Mission } from "@/lib/models/missions";
@@ -19,7 +19,7 @@ const normalizeDifficulty = (effortLevel: string): MissionDifficulty => {
   return "Hard";
 };
 
-export default function Missions() {
+function MissionsContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -231,5 +231,13 @@ export default function Missions() {
       </main>
     </div>
     
+  );
+}
+
+export default function Missions() {
+  return (
+    <Suspense fallback={<main className="flex min-h-screen items-center justify-center bg-black text-white/80">Loading missions...</main>}>
+      <MissionsContent />
+    </Suspense>
   );
 }
