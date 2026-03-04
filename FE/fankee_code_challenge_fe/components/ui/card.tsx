@@ -55,12 +55,16 @@ function Card({ id, genre, title, artist, imageSrc, className }: CardProps) {
         <div className="mt-10 h-[3px] w-full bg-[#ffe600]" />
 
         <div className="mt-5 flex items-center justify-center gap-5 text-[#ffe600]">
-          <Eye
-            size={20}
-            strokeWidth={2.2}
-            className="cursor-pointer"
+          <button
+            type="button"
+            aria-label="Open missions"
+            data-no-drag="true"
+            className="cursor-pointer border-0 bg-transparent p-0 text-inherit"
+            onPointerDown={(event) => event.stopPropagation()}
             onClick={onOpenMissions}
-          />
+          >
+            <Eye size={20} strokeWidth={2.2} />
+          </button>
         </div>
       </div>
     </article>
