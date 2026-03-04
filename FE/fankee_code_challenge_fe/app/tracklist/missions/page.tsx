@@ -224,7 +224,7 @@ export default function Missions() {
             }
             router.push("/tracklist");
           }}
-          className="fixed bottom-6 left-1/2 z-[30] -translate-x-1/2 rounded-full border border-[#ffe600] bg-black/60 px-6 py-2 text-[#ffe600] transition-opacity hover:opacity-85"
+          className="fixed bottom-13 left-1/2 z-[30] -translate-x-1/2 rounded-full border border-[#ffe600] bg-black/60 px-6 py-2 text-[#ffe600] transition-opacity hover:opacity-85"
         >
           Back
         </button>
