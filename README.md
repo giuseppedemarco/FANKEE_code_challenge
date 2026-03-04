@@ -80,5 +80,60 @@ python3 main.py
 ```
 7. Visit swagger at http://localhost:8001/docs#/
 
-```
+# API Endpoints
+
+## Users
+
+### Get User
+
+* **Method:** `GET`
+* **Endpoint:** `/v1/users/{user_id}`
+
+### Get All Users
+
+* **Method:** `GET`
+* **Endpoint:** `/v1/users/`
+
+### Create User
+
+* **Method:** `POST`
+* **Endpoint:** `/v1/users/`
+
+### Verify Existing User
+
+* **Method:** `POST`
+* **Endpoint:** `/v1/users/verify`
+
+---
+
+## Tracks
+
+### Get Track
+
+* **Method:** `GET`
+* **Endpoint:** `/v1/tracks/{track_id}`
+
+### Get All Tracks
+
+* **Method:** `GET`
+* **Endpoint:** `/v1/tracks/`
+
+### Verify Existing Track
+
+* **Method:** `POST`
+* **Endpoint:** `/v1/tracks/verify`
+
+---
+
+## Missions
+
+### Generate Missions
+
+* **Method:** `POST`
+* **Endpoint:** `/v1/missions/generate-missions`
+
+---
+# Good to Know about Front-end
+
+
 
