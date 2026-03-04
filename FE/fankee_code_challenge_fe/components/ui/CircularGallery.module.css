@@ -1,7 +1,7 @@
 .circularGallery {
   width: 100%;
-  height: 84vh;
-  min-height: 700px;
+  height: min(78vh, 760px);
+  min-height: 500px;
   position: relative;
   overflow: hidden;
   cursor: grab;
@@ -29,18 +29,25 @@
 }
 
 .card {
-  width: 380px !important;
-  height: 590px !important;
+  width: clamp(240px, 28vw, 340px) !important;
+  height: clamp(370px, 42vw, 530px) !important;
+}
+
+@media (max-width: 1024px) {
+  .circularGallery {
+    height: 70vh;
+    min-height: 470px;
+  }
 }
 
 @media (max-width: 768px) {
   .circularGallery {
-    min-height: 620px;
-    height: 76vh;
+    min-height: 430px;
+    height: 64vh;
   }
 
   .card {
-    width: 300px !important;
-    height: 470px !important;
+    width: clamp(210px, 68vw, 280px) !important;
+    height: clamp(320px, 102vw, 430px) !important;
   }
 }

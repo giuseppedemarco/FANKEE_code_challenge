@@ -3,6 +3,7 @@
 import { PointerEvent, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { Card } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import styles from "./CircularGallery.module.css";
 
 export type CircularGalleryItem = {
@@ -15,11 +16,12 @@ export type CircularGalleryItem = {
 
 type CircularGalleryProps = {
   items: CircularGalleryItem[];
+  className?: string;
 };
 
 const DRAG_STEP_PX = 120;
 
-export default function CircularGallery({ items }: CircularGalleryProps) {
+export default function CircularGallery({ items, className }: CircularGalleryProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const dragStateRef = useRef({
     isDragging: false,
@@ -82,7 +84,7 @@ export default function CircularGallery({ items }: CircularGalleryProps) {
 
   return (
     <div
-      className={styles.circularGallery}
+      className={cn(styles.circularGallery, className)}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerEnd}
