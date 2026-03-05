@@ -1,4 +1,22 @@
+import fs from "node:fs";
+import path from "node:path";
+
 const DEFAULT_BACKEND_URL = "http://127.0.0.1:8001";
+
+function readBackendUrlFromRootEnv(): string | undefined {
+  try {
+    const envPath = path.resolve(process.cwd(), "..", "..", ".env");
+    const rawEnv = fs.readFileSync(envPath, "utf8");
+    const match = rawEnv.match(/^\s*APP_PORT\s*=\s*([0-9]+)\s*$/m);
+    const port = match?.[1];
+    if (!port) {
+      return undefined;
+    }
+    return `http://127.0.0.1:${port}`;
+  } catch {
+    return undefined;
+  }
+}
 
 type BackendRequestInit = Omit<RequestInit, "body"> & {
   body?: unknown;
@@ -18,7 +36,10 @@ export async function backendFetch<T>(
   path: string,
   init: BackendRequestInit = {},
 ): Promise<T> {
-  const baseUrl = process.env.BE_API_BASE_URL ?? DEFAULT_BACKEND_URL;
+  const baseUrl =
+    process.env.BE_API_BASE_URL ??
+    readBackendUrlFromRootEnv() ??
+    DEFAULT_BACKEND_URL;
   const url = `${baseUrl}${path}`;
 
   const headers = new Headers(init.headers);

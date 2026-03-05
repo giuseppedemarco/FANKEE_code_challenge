@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 type CardProps = {
-  id: number;
+  trackId: number;
+  userId: number | null;
   genre: string;
   title: string;
   artist: string;
@@ -13,12 +14,13 @@ type CardProps = {
   className?: string;
 };
 
-function Card({ id, genre, title, artist, imageSrc, className }: CardProps) {
+function Card({ trackId, userId, genre, title, artist, imageSrc, className }: CardProps) {
   const router = useRouter();
 
   const onOpenMissions = () => {
     const params = new URLSearchParams({
-      id: String(id),
+      trackId: String(trackId),
+      userId: userId !== null ? String(userId) : "",
       artist,
       title,
       genre,
