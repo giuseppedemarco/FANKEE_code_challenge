@@ -174,7 +174,7 @@ npm run dev
 ```
 ---
 # Good to Know about Front-end
-### USE CASE DIAGRAM - tracklist card creation
+### Sequence diagram - tracklist card creation
 When the user opens /tracklist, the client page requests both tracks (/api/tracks) and users (/api/users) from the frontend API routes.
 Those routes proxy the calls to the backend (/v1/tracks/ and /v1/users/), which fetch data from the database and return tracks[] and users[] (necessary to obtain artist_name).
 
